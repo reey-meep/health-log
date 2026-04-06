@@ -458,7 +458,7 @@ function renderStep(){
     step.opts.forEach(o=>{
       const b=document.createElement('button');
       b.className='opt'+(saved===o?' selected':'');
-      b.textContent=o;
+      b.innerHTML=o;
       b.onclick=()=>{
         div.querySelectorAll('.opt').forEach(x=>x.classList.remove('selected'));
         b.classList.add('selected');
@@ -476,7 +476,7 @@ function renderStep(){
     step.opts.forEach(o=>{
       const b=document.createElement('button');
       b.className='opt-pill'+(saved===o?' selected':'');
-      b.textContent=o;
+      b.innerHTML=o;
       b.onclick=()=>{
         div.querySelectorAll('.opt-pill').forEach(x=>x.classList.remove('selected'));
         b.classList.add('selected');
@@ -497,7 +497,7 @@ function renderStep(){
       const b=document.createElement('button');
       const isSel=saved===l;
       b.className='scale-btn'+(isSel?' '+selClasses[i]:'');
-      b.textContent=l;
+      b.innerHTML=l;
       b.onclick=()=>{
         div.querySelectorAll('.scale-btn').forEach((x,j)=>{x.className='scale-btn'; });
         b.classList.add(selClasses[i]);
@@ -516,7 +516,7 @@ function renderStep(){
     step.opts.forEach(o=>{
       const b=document.createElement('button');
       b.className='opt'+(selected.includes(o)?' selected':'');
-      b.textContent=o;
+      b.innerHTML=o;
       b.onclick=()=>{
         b.classList.toggle('selected');
         const idx=selected.indexOf(o);
