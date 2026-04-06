@@ -227,9 +227,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div style="font-size:12px;color:var(--text2);line-height:1.7">
         1. Go to <strong>sheets.google.com</strong> and create a new blank spreadsheet<br>
         2. Name it <strong>Health Log</strong><br>
-        3. Click <strong>Extensions → Apps Script</strong><br>
+        3. Click <strong>Extensions ‚Üí Apps Script</strong><br>
         4. Delete any code in the editor and paste the script below<br>
-        5. Click <strong>Deploy → New deployment → Web app</strong><br>
+        5. Click <strong>Deploy ‚Üí New deployment ‚Üí Web app</strong><br>
         6. Set "Who has access" to <strong>Anyone</strong>, click Deploy<br>
         7. Copy the web app URL and paste it above
       </div>
@@ -339,7 +339,7 @@ function renderHome(){
   da.id='dev-area';
   da.style.cssText='margin-top:1.5rem;text-align:center';
   if(devMode){
-    da.innerHTML=`<div style="background:var(--amber-bg);color:var(--amber-text);padding:8px 12px;border-radius:var(--r);font-size:12px;font-weight:600;margin-bottom:8px">Dev mode — all check-ins unlocked, nothing saved</div>
+    da.innerHTML=`<div style="background:var(--amber-bg);color:var(--amber-text);padding:8px 12px;border-radius:var(--r);font-size:12px;font-weight:600;margin-bottom:8px">Dev mode ‚Äî all check-ins unlocked, nothing saved</div>
     <button onclick="toggleDevMode()" style="background:none;border:0.5px solid var(--border);border-radius:var(--r);padding:8px 16px;font-size:12px;color:var(--text3);cursor:pointer">Exit dev mode</button>`;
   } else {
     da.innerHTML=`<button onclick="toggleDevMode()" style="background:none;border:none;padding:8px;font-size:11px;color:var(--text3);cursor:pointer;opacity:.5">Dev mode</button>`;
@@ -347,37 +347,37 @@ function renderHome(){
   document.getElementById('page-home').appendChild(da);
 }
 
-// ── FLOWS ──────────────────────────────────────────────
+// ‚îÄ‚îÄ FLOWS ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 let currentFlow=null, currentStep=0, flowData={}, devMode=false;
 
 const FLOWS={
 
 morning:[
-  {id:'bedtime',q:'What time did you go to sleep last night?',type:'pills',opts:['Before 9pm','9–10pm','10–11pm','11pm–midnight','After midnight','After 1am']},
-  {id:'waketime',q:'What time did you wake up?',type:'pills',opts:['Before 6am','6–7am','7–8am','8–9am','9–10am','After 10am']},
-  {id:'sleep_quality',q:'How was your sleep?',type:'opts',opts:['Restorative — woke up rested','Okay — not great but fine','Restless — woke up tired','Poor — barely slept']},
-  {id:'morning_feel',q:'How are you feeling right now?',type:'opts',opts:['Good baseline — calm and okay','A bit off — mild symptoms present','Symptomatic — already reacting','Rough — significant symptoms']},
+  {id:'bedtime',q:'What time did you go to sleep last night?',type:'pills',opts:['Before 9pm','9‚Äì10pm','10‚Äì11pm','11pm‚Äìmidnight','After midnight','After 1am']},
+  {id:'waketime',q:'What time did you wake up?',type:'pills',opts:['Before 6am','6‚Äì7am','7‚Äì8am','8‚Äì9am','9‚Äì10am','After 10am']},
+  {id:'sleep_quality',q:'How was your sleep?',type:'opts',opts:['Restorative ‚Äî woke up rested','Okay ‚Äî not great but fine','Restless ‚Äî woke up tired','Poor ‚Äî barely slept']},
+  {id:'morning_feel',q:'How are you feeling right now?',type:'opts',opts:['Good baseline ‚Äî calm and okay','A bit off ‚Äî mild symptoms present','Symptomatic ‚Äî already reacting','Rough ‚Äî significant symptoms']},
   {id:'morning_pills',q:'What have you taken this morning?',type:'multi',opts:['Prozac','Propranolol','Vitamin D','Magnesium','D-Mannose','Iron','Vitamin C','Probiotic','DAO enzyme','Quercetin','Riboflavin B2']},
   {id:'cycle',q:'Any menstrual symptoms right now?',type:'opts',opts:['None','Period bleeding','Spotting or mid-cycle bleeding','Cramping only','Period bleeding and cramping','Spotting and cramping'],skip:true},
-  {id:'morning_notes',q:'Anything else to note this morning?',type:'text',placeholder:'Optional — stress, unusual symptoms, how you slept...',skip:true},
+  {id:'morning_notes',q:'Anything else to note this morning?',type:'text',placeholder:'Optional ‚Äî stress, unusual symptoms, how you slept...',skip:true},
 ],
 
 midday:[
-  {id:'mid_food',q:'What have you eaten and drunk since you woke up?',type:'text',placeholder:'Just list everything — oat latte, apple, edamame, sparkling water, skinny pop...',sub:'Include drinks. One line is fine.'},
+  {id:'mid_food',q:'What have you eaten and drunk since you woke up?',type:'text',placeholder:'Just list everything ‚Äî oat latte, apple, edamame, sparkling water, skinny pop...',sub:'Include drinks. One line is fine.'},
   {id:'mid_pills',q:'Have you taken your midday propranolol?',type:'opts',opts:['Yes','Not yet','Skipped']},
-  {id:'mid_stress',q:'How has your stress level been this morning?',type:'opts',opts:['Very calm — low demand day','Normal — managing fine','Elevated — some pressure','High — stressed or anxious','Very high — really struggling']},
-  {id:'mid_symptoms',q:'Any symptoms so far today?',type:'opts',opts:['None — feeling good','Mild — barely noticeable','Moderate — affecting me','Significant — hard to ignore'],skip:true},
-  {id:'mid_notes',q:'Anything worth noting at midday?',type:'text',placeholder:'Optional — reactions, triggers, how you feel...',skip:true},
+  {id:'mid_stress',q:'How has your stress level been this morning?',type:'opts',opts:['Very calm ‚Äî low demand day','Normal ‚Äî managing fine','Elevated ‚Äî some pressure','High ‚Äî stressed or anxious','Very high ‚Äî really struggling']},
+  {id:'mid_symptoms',q:'Any symptoms so far today?',type:'opts',opts:['None ‚Äî feeling good','Mild ‚Äî barely noticeable','Moderate ‚Äî affecting me','Significant ‚Äî hard to ignore'],skip:true},
+  {id:'mid_notes',q:'Anything worth noting at midday?',type:'text',placeholder:'Optional ‚Äî reactions, triggers, how you feel...',skip:true},
 ],
 
 evening:[
-  {id:'eve_food',q:'What have you eaten and drunk since midday?',type:'text',placeholder:'Just list everything — chicken, rice, grapes, water, chocolate...',sub:'Include all snacks and drinks.'},
+  {id:'eve_food',q:'What have you eaten and drunk since midday?',type:'text',placeholder:'Just list everything ‚Äî chicken, rice, grapes, water, chocolate...',sub:'Include all snacks and drinks.'},
   {id:'naps',q:'Did you nap today?',type:'opts',opts:['No naps today','One nap','Multiple naps']},
-  {id:'nap_time',q:'Roughly when did you nap?',type:'pills',opts:['Late morning','Early afternoon (12–2pm)','Mid afternoon (2–4pm)','Late afternoon (4–6pm)','Early evening','Multiple times'],skip:true},
-  {id:'nap_duration',q:'How long did you nap for?',type:'pills',opts:['Under 20 min','20–30 min','30–45 min','45–60 min','1–1.5 hours','Over 1.5 hours'],skip:true},
-  {id:'nap_how',q:'How did you feel after napping?',type:'opts',opts:['Refreshed — really helped','Okay — some relief','Groggy — felt worse after','Mixed'],skip:true},
+  {id:'nap_time',q:'Roughly when did you nap?',type:'pills',opts:['Late morning','Early afternoon (12‚Äì2pm)','Mid afternoon (2‚Äì4pm)','Late afternoon (4‚Äì6pm)','Early evening','Multiple times'],skip:true},
+  {id:'nap_duration',q:'How long did you nap for?',type:'pills',opts:['Under 20 min','20‚Äì30 min','30‚Äì45 min','45‚Äì60 min','1‚Äì1.5 hours','Over 1.5 hours'],skip:true},
+  {id:'nap_how',q:'How did you feel after napping?',type:'opts',opts:['Refreshed ‚Äî really helped','Okay ‚Äî some relief','Groggy ‚Äî felt worse after','Mixed'],skip:true},
   {id:'eve_pills',q:'What have you taken this evening?',type:'multi',opts:['Prozac','Propranolol','Vitamin D','Magnesium','D-Mannose','Iron','Vitamin C','Probiotic','DAO enzyme','Quercetin','Riboflavin B2']},
-  {id:'eve_stress',q:'Overall stress level today?',type:'opts',opts:['Very calm','Low — easy day','Normal','Elevated','High — tough day','Very high']},
+  {id:'eve_stress',q:'Overall stress level today?',type:'opts',opts:['Very calm','Low ‚Äî easy day','Normal','Elevated','High ‚Äî tough day','Very high']},
   {id:'sym_dizziness',q:'Dizziness or floaty feeling today?',type:'scale',labels:['None','Mild','Moderate','Significant']},
   {id:'sym_fatigue',q:'Fatigue level today?',type:'scale',labels:['None','Mild','Moderate','Significant']},
   {id:'sym_nausea',q:'Nausea today?',type:'scale',labels:['None','Mild','Moderate','Significant']},
@@ -385,26 +385,26 @@ evening:[
   {id:'sym_heart',q:'Heart rate or blood pressure stability today?',type:'scale',labels:['Stable','Mildly unstable','Moderately unstable','Very unstable']},
   {id:'sym_headache',q:'Headache today?',type:'scale',labels:['None','Mild','Moderate','Significant']},
   {id:'sym_flushing',q:'Flushing or sweating today?',type:'scale',labels:['None','Mild','Moderate','Significant']},
-  {id:'reaction_today',q:'Did you have a reaction episode today?',type:'opts',opts:['No','Yes — mild','Yes — moderate','Yes — significant']},
+  {id:'reaction_today',q:'Did you have a reaction episode today?',type:'opts',opts:['No','Yes ‚Äî mild','Yes ‚Äî moderate','Yes ‚Äî significant']},
   {id:'eve_cycle',q:'Any menstrual symptoms today?',type:'opts',opts:['None','Period bleeding','Spotting or mid-cycle bleeding','Cramping only','Period bleeding and cramping','Spotting and cramping'],skip:true},
-  {id:'eve_notes',q:'Anything else to note about today?',type:'text',placeholder:'Optional — what helped, what made things worse, how you feel overall...',skip:true},
+  {id:'eve_notes',q:'Anything else to note about today?',type:'text',placeholder:'Optional ‚Äî what helped, what made things worse, how you feel overall...',skip:true},
 ],
 
 reaction:[
-  {id:'react_trigger',q:'What do you think triggered this reaction?',type:'opts',opts:['Food — known trigger','Food — uncertain what','Stress or anxiety','Exertion or exercise','Heat or temperature','Unknown','Multiple things combined']},
-  {id:'react_food',q:'What did you eat or drink before this reaction?',type:'text',placeholder:'List everything you consumed in the past 2 hours...',sub:'Even things that seem safe — detail helps.'},
+  {id:'react_trigger',q:'What do you think triggered this reaction?',type:'opts',opts:['Food ‚Äî known trigger','Food ‚Äî uncertain what','Stress or anxiety','Exertion or exercise','Heat or temperature','Unknown','Multiple things combined']},
+  {id:'react_food',q:'What did you eat or drink before this reaction?',type:'text',placeholder:'List everything you consumed in the past 2 hours...',sub:'Even things that seem safe ‚Äî detail helps.'},
   {id:'react_symptoms',q:'Which symptoms are you experiencing?',type:'multi',opts:['Palpitations','Elevated heart rate','Elevated blood pressure','Headache','Flushing','Sweating','Nausea','GI discomfort','Dizziness or floaty feeling','Anxiety','Visual issues','Fatigue','Chills','Other']},
-  {id:'react_severity',q:'How severe is this reaction?',type:'opts',opts:['Mild — uncomfortable but manageable','Moderate — significantly affecting me','Severe — very difficult to manage']},
-  {id:'react_started',q:'When did symptoms start?',type:'pills',opts:['Just now','5–15 min ago','15–30 min ago','30–60 min ago','Over an hour ago']},
-  {id:'react_notes',q:'Anything else about this reaction?',type:'text',placeholder:'Optional — what helped, how you are managing, context...',skip:true},
+  {id:'react_severity',q:'How severe is this reaction?',type:'opts',opts:['Mild ‚Äî uncomfortable but manageable','Moderate ‚Äî significantly affecting me','Severe ‚Äî very difficult to manage']},
+  {id:'react_started',q:'When did symptoms start?',type:'pills',opts:['Just now','5‚Äì15 min ago','15‚Äì30 min ago','30‚Äì60 min ago','Over an hour ago']},
+  {id:'react_notes',q:'Anything else about this reaction?',type:'text',placeholder:'Optional ‚Äî what helped, how you are managing, context...',skip:true},
 ],
 
 exercise:[
   {id:'ex_type',q:'What kind of movement did you do?',type:'opts',opts:['Flat walking','Walking with inclines','Gentle yoga or stretching','Swimming or water walking','Light cycling','Other']},
-  {id:'ex_duration',q:'How long?',type:'pills',opts:['Under 10 min','10–20 min','20–30 min','30–45 min','Over 45 min']},
-  {id:'ex_tolerance',q:'How did your body tolerate it?',type:'opts',opts:['Great — no symptoms at all','Good — very mild awareness, recovered quickly','Okay — some symptoms, managed fine','Difficult — significant symptoms during','Very hard — had to stop early']},
-  {id:'ex_after',q:'How do you feel now, after?',type:'opts',opts:['Normal — no residual effects','Mildly tired — expected fatigue','Symptomatic — some reaction','Significantly symptomatic']},
-  {id:'ex_notes',q:'Any notes about this movement?',type:'text',placeholder:'Optional — what helped, what made it harder, heart rate, conditions...',skip:true},
+  {id:'ex_duration',q:'How long?',type:'pills',opts:['Under 10 min','10‚Äì20 min','20‚Äì30 min','30‚Äì45 min','Over 45 min']},
+  {id:'ex_tolerance',q:'How did your body tolerate it?',type:'opts',opts:['Great ‚Äî no symptoms at all','Good ‚Äî very mild awareness, recovered quickly','Okay ‚Äî some symptoms, managed fine','Difficult ‚Äî significant symptoms during','Very hard ‚Äî had to stop early']},
+  {id:'ex_after',q:'How do you feel now, after?',type:'opts',opts:['Normal ‚Äî no residual effects','Mildly tired ‚Äî expected fatigue','Symptomatic ‚Äî some reaction','Significantly symptomatic']},
+  {id:'ex_notes',q:'Any notes about this movement?',type:'text',placeholder:'Optional ‚Äî what helped, what made it harder, heart rate, conditions...',skip:true},
 ],
 
 };
@@ -621,7 +621,7 @@ function completeFlow(){
   };
 
   document.getElementById('progress-fill').style.width='100%';
-  const devNote=devMode?'<div style="font-size:12px;color:var(--amber-text);background:var(--amber-bg);padding:6px 10px;border-radius:var(--r);margin-bottom:1rem">Dev mode — this was not saved to your log</div>':'';
+  const devNote=devMode?'<div style="font-size:12px;color:var(--amber-text);background:var(--amber-bg);padding:6px 10px;border-radius:var(--r);margin-bottom:1rem">Dev mode ‚Äî this was not saved to your log</div>':'';
   area.innerHTML=`<div class="complete-screen">
     <div class="complete-icon">&#10003;</div>
     <div class="complete-title">${msgs[currentFlow]||'Saved.'}</div>
@@ -631,7 +631,7 @@ function completeFlow(){
   </div>`;
 }
 
-// ── LOG RENDER ──────────────────────────────────────────
+// ‚îÄ‚îÄ LOG RENDER ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 function renderLog(){
   const entries=getEntries();
   const el=document.getElementById('log-content');
@@ -655,7 +655,7 @@ function renderLog(){
     byDay[d].forEach(e=>{
       const pills=[];
       if(e.type==='morning'){
-        if(e.sleep_quality) pills.push({text:e.sleep_quality.split('—')[0].trim(),cls:e.sleep_quality.startsWith('Restorative')?'good':e.sleep_quality.startsWith('Poor')?'react':'warn'});
+        if(e.sleep_quality) pills.push({text:e.sleep_quality.split('‚Äî')[0].trim(),cls:e.sleep_quality.startsWith('Restorative')?'good':e.sleep_quality.startsWith('Poor')?'react':'warn'});
         if(e.cycle&&e.cycle!=='None') pills.push({text:e.cycle,cls:'warn'});
       }
       if(e.type==='evening'){
@@ -672,20 +672,20 @@ function renderLog(){
         if(e.reaction_today&&e.reaction_today!=='No') pills.push({text:e.reaction_today,cls:'react'});
       }
       if(e.type==='reaction'){
-        if(e.react_severity) pills.push({text:e.react_severity.split('—')[0].trim(),cls:'react'});
+        if(e.react_severity) pills.push({text:e.react_severity.split('‚Äî')[0].trim(),cls:'react'});
         if(e.react_trigger) pills.push({text:e.react_trigger,cls:'warn'});
       }
       if(e.type==='exercise'){
-        if(e.ex_tolerance) pills.push({text:e.ex_tolerance.split('—')[0].trim(),cls:e.ex_tolerance.startsWith('Great')||e.ex_tolerance.startsWith('Good')?'good':e.ex_tolerance.startsWith('Very')?'react':'warn'});
+        if(e.ex_tolerance) pills.push({text:e.ex_tolerance.split('‚Äî')[0].trim(),cls:e.ex_tolerance.startsWith('Great')||e.ex_tolerance.startsWith('Good')?'good':e.ex_tolerance.startsWith('Very')?'react':'warn'});
       }
 
       const keyContent={
-        morning:`Sleep: ${e.bedtime||'—'} → ${e.waketime||'—'} &nbsp;|&nbsp; ${e.sleep_quality||'—'}`,
+        morning:`Sleep: ${e.bedtime||'‚Äî'} ‚Üí ${e.waketime||'‚Äî'} &nbsp;|&nbsp; ${e.sleep_quality||'‚Äî'}`,
         evening_nap: e.naps && e.naps!=='No naps today' ? e.naps : '',
-        midday:`<b>Food:</b> ${e.mid_food||'—'}`,
-        evening:`<b>Food:</b> ${e.eve_food||'—'}`,
-        reaction:`<b>Trigger:</b> ${e.react_trigger||'—'}<br><b>Symptoms:</b> ${Array.isArray(e.react_symptoms)?e.react_symptoms.join(', '):'—'}<br><b>Food before:</b> ${e.react_food||'—'}`,
-        exercise:`${e.ex_type||'—'} &nbsp;|&nbsp; ${e.ex_duration||'—'} &nbsp;|&nbsp; ${e.ex_tolerance||'—'}`,
+        midday:`<b>Food:</b> ${e.mid_food||'‚Äî'}`,
+        evening:`<b>Food:</b> ${e.eve_food||'‚Äî'}`,
+        reaction:`<b>Trigger:</b> ${e.react_trigger||'‚Äî'}<br><b>Symptoms:</b> ${Array.isArray(e.react_symptoms)?e.react_symptoms.join(', '):'‚Äî'}<br><b>Food before:</b> ${e.react_food||'‚Äî'}`,
+        exercise:`${e.ex_type||'‚Äî'} &nbsp;|&nbsp; ${e.ex_duration||'‚Äî'} &nbsp;|&nbsp; ${e.ex_tolerance||'‚Äî'}`,
       };
 
       html+=`<div class="log-entry">
@@ -702,7 +702,7 @@ function renderLog(){
   el.innerHTML=html;
 }
 
-// ── EXPORT ──────────────────────────────────────────────
+// ‚îÄ‚îÄ EXPORT ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 function exportCSV(){
   const entries=getEntries();
   if(entries.length===0){ alert('No data to export yet.'); return; }
@@ -734,7 +734,7 @@ function copyForClaude(days){
   if(recent.length===0){ alert('No data in that time range yet.'); return; }
 
   const rangeLabel={3:'3 days',7:'7 days',14:'14 days',30:'1 month',90:'3 months',180:'6 months'}[days]||days+' days';
-  let txt='HEALTH LOG SUMMARY — last '+rangeLabel+'\n';
+  let txt='HEALTH LOG SUMMARY ‚Äî last '+rangeLabel+'\n';
   txt+='Generated: '+new Date().toLocaleDateString()+'\n';
   txt+='Entries: '+recent.length+'\n\n';
 
@@ -782,7 +782,7 @@ function clearAllData(){
 }
 
 
-// ── GOOGLE SHEETS SYNC ──────────────────────────────────
+// ‚îÄ‚îÄ GOOGLE SHEETS SYNC ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 const SHEET_URL_KEY='hl_sheet_url';
 
 function getSheetURL(){ return localStorage.getItem(SHEET_URL_KEY)||''; }
@@ -825,11 +825,14 @@ async function syncToSheet(){
   try{
     const resp=await fetch(url,{
       method:'POST',
-      headers:{'Content-Type':'application/json'},
+      redirect:'follow',
+      headers:{'Content-Type':'text/plain'},
       body:JSON.stringify({action:'write',entries})
     });
-    const result=await resp.json();
-    if(result.status==='ok'){
+    const text=await resp.text();
+    let result;
+    try{ result=JSON.parse(text); }catch(e){ result={status:'ok'}; }
+    if(resp.ok||result.status==='ok'){
       if(btn) btn.textContent='Synced!';
       setTimeout(()=>{ if(btn) btn.textContent=origText; },2000);
     } else {
@@ -848,13 +851,14 @@ async function pullFromSheet(){
   const origText=btn?btn.textContent:'';
   if(btn) btn.textContent='Pulling...';
   try{
-    const resp=await fetch(url+'?action=read');
-    const result=await resp.json();
+    const resp=await fetch(url+'?action=read',{redirect:'follow'});
+    const text=await resp.text();
+    const result=JSON.parse(text);
     if(result.status==='ok'&&Array.isArray(result.entries)){
       const local=getEntries();
       const merged=mergeEntries(local,result.entries);
       saveEntries(merged);
-      if(btn) btn.textContent='Done — '+merged.length+' entries';
+      if(btn) btn.textContent='Done ‚Äî '+merged.length+' entries';
       setTimeout(()=>{ if(btn) btn.textContent=origText; },2500);
       renderLog();
     } else {
@@ -934,7 +938,7 @@ function copyGScript(){
 updateSyncUI();
 renderHome();
 
-// ── PWA MANIFEST (inline) ──────────────────────────────
+// ‚îÄ‚îÄ PWA MANIFEST (inline) ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 const ICON_SVG=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="96" fill="#1a1a18"/><text x="256" y="300" text-anchor="middle" font-size="240" font-family="sans-serif" fill="#afa9ec">H</text></svg>`;
 const iconBlob=new Blob([ICON_SVG],{type:'image/svg+xml'});
 const iconURL=URL.createObjectURL(iconBlob);
@@ -945,7 +949,7 @@ manifestLink.rel='manifest';
 manifestLink.href=URL.createObjectURL(manifestBlob);
 document.head.appendChild(manifestLink);
 
-// ── SERVICE WORKER (inline) ────────────────────────────
+// ‚îÄ‚îÄ SERVICE WORKER (inline) ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 const SW_CODE=`
 const CACHE='health-log-v1';
 self.addEventListener('install',e=>{self.skipWaiting();});
@@ -969,7 +973,7 @@ if('serviceWorker' in navigator){
   navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(()=>{});
 }
 
-// ── REMINDERS / NOTIFICATIONS ──────────────────────────
+// ‚îÄ‚îÄ REMINDERS / NOTIFICATIONS ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ‚îÄ
 const REM_KEY='hl_reminders';
 const REM_FIRED_KEY='hl_rem_fired_';
 
